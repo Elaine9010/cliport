@@ -488,7 +488,10 @@ def build_model(state_dict: dict):
     )
 
     for key in ["input_resolution", "context_length", "vocab_size"]:
-        del state_dict[key]
+        try:
+            del state_dict[key]
+        except Exception as e:
+            print(e)
 
     convert_weights(model)
     model.load_state_dict(state_dict)

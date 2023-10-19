@@ -1,0 +1,75 @@
+Datasets generation
+
+python cliport/demos.py n=100 \
+                        task=packing-boxes-pairs-unseen-colors \
+                        mode=train 
+
+
+python cliport/demos.py n=10 \
+                        task=packing-boxes-pairs-unseen-colors \
+                        mode=val 
+
+
+python cliport/demos.py n=10 \
+                        task=packing-boxes-pairs-unseen-colors \
+                        mode=test
+                        
+                        
+Single-Task Training & Evaluation & Test
+
+
+python cliport/train.py train.task=packing-boxes-pairs-unseen-colors \
+                        train.agent=cliport \
+                        train.attn_stream_fusion_type=add \
+                        train.trans_stream_fusion_type=conv \
+                        train.lang_fusion_type=mult \
+                        train.n_demos=100 \
+                        train.n_val=10 \
+                        train.n_steps=20100 \
+                        train.exp_folder=exps \
+                        dataset.cache=False 
+
+
+python cliport/eval.py eval_task=packing-boxes-pairs-unseen-colors \
+                       agent=cliport \
+                       mode=val \
+                       n_demos=10 \
+                       train_demos=100 \
+                       checkpoint_type=val_missing \
+                       exp_folder=exps 
+
+
+python cliport/eval.py eval_task=packing-boxes-pairs-unseen-colors \
+                       agent=cliport \
+                       mode=test \
+                       n_demos=10 \
+                       train_demos=100 \
+                       checkpoint_type=test_best \
+                       exp_folder=exps 
+
+-------------------------------------------------------------------------------------
+
+python cliport/eval.py model_task=multi-language-conditioned \
+                       eval_task=stack-block-pyramid-seq-seen-colors \
+                       agent=cliport \
+                       mode=test \
+                       n_demos=10 \
+                       train_demos=1000 \
+                       exp_folder=cliport_quickstart \
+                       checkpoint_type=test_best \
+                       update_results=True \
+                       disp=True
+
+
+
+
+python cliport/eval.py model_task=multi-language-conditioned \
+                       eval_task=packing-boxes-pairs-unseen-colors \
+                       agent=cliport \
+                       mode=val \
+                       n_demos=10 \
+                       train_demos=1000 \
+                       exp_folder=cliport_quickstart \
+                       checkpoint_type=val_missing \
+                       update_results=True \
+                       disp=True
